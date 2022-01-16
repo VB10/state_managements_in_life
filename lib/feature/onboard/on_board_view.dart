@@ -1,11 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:state_managements_in_life/feature/onboard/onboard_model.dart';
-import 'package:state_managements_in_life/feature/onboard/tab_indicator.dart';
-import 'package:state_managements_in_life/product/padding/page_padding.dart';
-import 'package:state_managements_in_life/product/widget/onboard_card.dart';
+import 'package:kartal/src/context_extension.dart';
+import 'package:provider/src/provider.dart';
+
+import '../../product/model/state/project_context.dart';
+import '../../product/padding/page_padding.dart';
+import '../../product/widget/onboard_card.dart';
+import '../login/view/login_view.dart';
+import 'onboard_model.dart';
+import 'tab_indicator.dart';
 
 part './module/start_fab_button.dart';
 
@@ -56,7 +59,7 @@ class _OnBoardViewState extends State<OnBoardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(context),
       body: Padding(
         padding: const PagePadding.all(),
         child: Column(
@@ -80,16 +83,24 @@ class _OnBoardViewState extends State<OnBoardView> {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      title: Text(context.watch<ProductContext>().newUserName),
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       actions: [
         ValueListenableBuilder<bool>(
           valueListenable: isBackEnable,
           builder: (BuildContext context, bool value, Widget? child) {
-            return value ? const SizedBox() : TextButton(onPressed: () {}, child: Text(_skipTile));
+            return value
+                ? const SizedBox()
+                : TextButton(
+                    onPressed: () {
+                      // context.read<ProductContext>().chnageName('veli');
+                      context.navigateToPage(LoginView());
+                    },
+                    child: Text(_skipTile));
           },
         ),
       ],
