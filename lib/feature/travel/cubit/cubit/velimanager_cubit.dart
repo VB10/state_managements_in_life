@@ -4,5 +4,5 @@ import 'package:equatable/equatable.dart';
 part 'velimanager_state.dart';
 
 class VelimanagerCubit extends Cubit<VelimanagerState> {
-  VelimanagerCubit() : super(VelimanagerInitial());
+  VelimanagerCubit() : super(VelimanagerInitial('a'));
 }
